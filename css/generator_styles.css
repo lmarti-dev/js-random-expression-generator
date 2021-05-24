@@ -21,7 +21,7 @@ html{
 	flex-grow: 1;
 	flex-direction: column;
 	overflow: auto;
-	height: 100%;
+	height: auto;
 	margin: 2px;
 	border: solid #8C8C8C 1px;
 }
@@ -35,8 +35,14 @@ html{
 	background: #E5E5E5;
 }
 .ribbon{
+	background: #EFEFEF;
+	border: 1px solid #CECECE;
+	border-radius: 1px;
 	display: flex;
 	flex-direction: flex-row;
+	flex-wrap: wrap;
+	padding: 5px;
+	margin: 2px;
 	
 }
 .status-msg{
@@ -50,7 +56,7 @@ html{
 }
 #status-ribbon {
 	display: flex;
-	flex-direction: flex-row;
+	flex-direction: flex-row;#EFEFEF
 }
 
 #var-list{
@@ -97,4 +103,27 @@ input, select{
 }
 input:invalid,textarea:invalid{
 	border: 1px solid #FF0000;
+}
+.highlighted{
+	color: #B24C00;
+	background-color: #C8C8C8;
+	border: 1px solid #9C9A99;
+	border-radius: 2px;
+}
+#results{
+	background-color: #EFEFEF;
+	border: 1px solid #D8D8D8;
+	padding: 1em;
+}
+.result {
+	display: flex;
+	padding: .1em;
+	border: 1px solid #C3C3C3;
+}	
+div.result>p{
+	width: 100%;
+	background-color: #FBFBFB;
+	border: 1px solid #D8D8D8;
+	padding: .5em 1em;
+	margin: .3em;
 }

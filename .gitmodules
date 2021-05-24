@@ -1,0 +1,3 @@
+[submodule "procedural-generation-word-lists"]
+	path = procedural-generation-word-lists
+	url = https://github.com/lmarti-dev/procedural-generation-word-lists.git

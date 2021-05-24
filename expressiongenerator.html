@@ -8,17 +8,21 @@
 	<body>
 		<div id="expgenapp">
 			
-			<div id="left-column">
+			<div id="left-column" class="column">
 				<div class="command-board">
 				<button id="add-var">+</button><button id="reset-var">reset</button>
 				</div>
 				<div id="var-list">
 				</div>
 			</div>
-			<div id="right-column">
-				<textarea placeholder="Write your generating expression here"></textarea>
-				<div id="right-ribbon">
-					<button>Generate</button>
+			<div id="right-column" class="column">
+					<textarea id="gen-text" placeholder="Write your generating expression here" required></textarea>
+				<div class="ribbon" id="right-ribbon">
+					<button id="generate">Generate</button>
+					<div class="message" id="status-ribbon">
+					</div>
+				</div>
+				<div id="results">
 				</div>
 			</div>
 		</div>

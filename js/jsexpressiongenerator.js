@@ -190,10 +190,10 @@ $("#generate").click(function(){
 				let random_word = get_random_from_wl(wls[i])
 				
 				if (check_case(e[0])){
-					text=text.replace(var_sym + e, cap_first(random_word))
+					text=text.replaceAll(var_sym + e, cap_first(random_word))
 				}
 				else {
-					text=text.replace(var_sym + e, random_word)
+					text=text.replaceAll(var_sym + e, random_word)
 				}
 				
 			});

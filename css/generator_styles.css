@@ -92,7 +92,7 @@ textarea{
 	margin: .1em .2em;
 	font-size: 1.2em;
 }
-input[type="text"],button,textarea,select,option{
+input[type="text"],button,textarea,select,option,input[type="number"]{
     font-size:inherit;
     font-family: inherit;
 }
@@ -126,4 +126,9 @@ div.result>p{
 	border: 1px solid #D8D8D8;
 	padding: .5em 1em;
 	margin: .3em;
+}
+@media only screen and (max-width: 1000px) {
+	html{
+		font-size: 50px;
+	}
 }

@@ -227,7 +227,7 @@ function highlight_vars(e){
 
 function update_ui(e){
 	//~ highlight_vars(e)
-	//~ try and imitate the outlook contact highlighting!
+	//~ try and imitate the outlook contact highlighting
 	update_message(e)
 }
 

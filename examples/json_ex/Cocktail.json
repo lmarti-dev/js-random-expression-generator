@@ -1,0 +1,21 @@
+{
+   "vars": [
+      "a",
+      "b",
+      "oh",
+      "do",
+      "di",
+      "heck",
+      "cool"
+   ],
+   "wordlists": [
+      "EN/IdeologiesAdjectives.txt",
+      "AL/AlcoholTypes.txt",
+      "EN/Onomatopeias.txt",
+      "EN/CommonVerbs.txt",
+      "EN/Disasters.txt",
+      "EN/WorstAdjectives.txt",
+      "EN/BadAdjectives.txt"
+   ],
+   "generative": "{$oh!|$heck!} $a $b! {Time to $do|Tastes like $di|I'm feeling $cool}!"
+}

@@ -1,0 +1,13 @@
+{
+   "vars": [
+      "music",
+      "phil",
+      "per"
+   ],
+   "wordlists": [
+      "EN/MusicTypes.txt",
+      "EN/PhilosophyAdjectives.txt",
+      "EN/PersonalityAdjective.txt"
+   ],
+   "generative": "I'm more of a $per person, so I only listen to $phil $music"
+}

@@ -1,0 +1,21 @@
+{
+   "vars": [
+      "N1",
+      "n2,nbis",
+      "n3",
+      "sad1,sad2",
+      "bad1,bad2",
+      "tit",
+      "loc"
+   ],
+   "wordlists": [
+      "AL/Boss_SW1.txt",
+      "AL/Boss_SW2.txt",
+      "AL/Boss_SW3.txt",
+      "EN/SadAdjective.txt",
+      "EN/BadAdjectives.txt",
+      "EN/VideoGameBossTitle.txt",
+      "EN/VideoGameLocation.txt"
+   ],
+   "generative": "$N1$n2{$nbis|}$n3{|, {the |}{$sad1 |$bad1 }$tit}{| of the {$sad2 |$bad2 }$loc}"
+}

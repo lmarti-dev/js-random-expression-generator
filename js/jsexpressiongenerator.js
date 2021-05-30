@@ -450,7 +450,7 @@ function import_gen_text(){
 		$("#ie-text").val("")
 		show_hide_ie_panel()
 	} else {
-		alert("Empty import!")
+		console.log("Empty import!")
 	}
 	
 }

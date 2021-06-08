@@ -1,0 +1,33 @@
+{
+   "vars": [
+      "sad1,sad2,Sad",
+      "bad1,bad2,Bad",
+      "tit,Tit",
+      "loc",
+      "per1,per2",
+      "big,Big",
+      "ani",
+      "do",
+      "that",
+      "hobby",
+      "lvl",
+      "art",
+      "ag"
+   ],
+   "wordlists": [
+      "EN/SadAdjective.txt",
+      "EN/BadAdjectives.txt",
+      "EN/CelebrityOcupations.txt",
+      "EN/VideoGameLocation.txt",
+      "EN/PersonalityAdjective.txt",
+      "EN/GiantAdjectives.txt",
+      "EN/CommonAnimals.txt",
+      "EN/CommonVerbs.txt",
+      "EN/LiteratureTheme.txt",
+      "EN/Hobbies.txt",
+      "EN/SkillLevels.txt",
+      "EN/ArtisticJob.txt",
+      "EN/Agentives.txt"
+   ],
+   "generative": "In {the|some} {$sad1|$bad1|$per1} $loc lived a {$sad2|$bad2} $tit. One day, {a $big $ani arrived.|{s|}he started to $do $that.|{s|}he said: \"{I must become $lvl at $hobby|I want to be a {$art|$ag}}!\"}"
+}

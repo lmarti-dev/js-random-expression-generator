@@ -3,10 +3,13 @@
       "N1",
       "n2,nbis",
       "n3",
-      "sad1,sad2",
-      "bad1,bad2",
-      "tit",
-      "loc"
+      "sad1,sad2,Sad",
+      "bad1,bad2,Bad",
+      "tit,Tit",
+      "loc",
+      "per1,per2",
+      "big,Big",
+      "ani"
    ],
    "wordlists": [
       "AL/Boss_SW1.txt",
@@ -15,7 +18,10 @@
       "EN/SadAdjective.txt",
       "EN/BadAdjectives.txt",
       "EN/VideoGameBossTitle.txt",
-      "EN/VideoGameLocation.txt"
+      "EN/VideoGameLocation.txt",
+      "EN/PersonalityAdjective.txt",
+      "EN/GiantAdjectives.txt",
+      "EN/CommonAnimals.txt"
    ],
-   "generative": "$N1$n2{$nbis|}$n3{|, {the |}{$sad1 |$bad1 }$tit}{| of the {$sad2 |$bad2 }$loc}"
+   "generative": "{$N1{$n2{$nbis|}|}$n3{|, the {$sad1 |$bad1 |$per1 |$big |}$tit}{| of the {$sad2 |}$loc}|{{$Sad |$Bad }$tit|$Tit} $N1{$n2{$nbis|}|}$n3{|, {$sad1|$bad1} $ani}}"
 }

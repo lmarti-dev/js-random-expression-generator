@@ -38,9 +38,9 @@
 			<h2>How to use this app</h2>
 			<div class="help-section">
 				<p>This app allows you to create random expressions with a simple generating language.</p>
-				<p>It works by using variables in a symbolic expression which will be subsituted by a word picked from a word list.</p>
-				<p>Click the <code>+</code> button on the right to add a random variable, then pick a word list from the drop-down menu.</p>
-				<p>You can rename your variable, but only use alphanumeric characters.
+				<p>It uses symbolic expressions which are replaced by a word picked from a word list.</p>
+				<p>Click the <code>+</code> button on the left panel to add a variable, then pick a word list from the drop-down menu.</p>
+				<p>You can name your variables only with alphanumeric characters.
 			</div>
 			<div class="help-section">
 				<p>In the righthand textbox, you can write the generating expression, 
@@ -50,7 +50,7 @@
 					the default variable with the default word list, 
 					write <code>$x0</code> in the righthand textbox and
 					click <code>Generate</code>, this will result in 5 different 
-					alcohol types being generated in the area below the textbox.</p>
+					words being generated in the area below the textbox.</p>
 			</div>
 			<div class="help-section">
 			<p>You can use <code>{a|b}</code> for <code>OR</code> logic, i.e evaluating to either <code>a</code> or <code>b</code>.
@@ -59,15 +59,16 @@
 			</div>
 				<h5>PRO TIPS</h5>
 			<div class="help-section">
-				<p>Beginning your variable definition with a capital will result in the subsituted word also having its first letter capitalized, i.e </p>
+				<p>Beginning your variable definition with a capital will capitalize the resulting word, i.e </p>
 				<p><code>$var = word</code> and <code>$Var = Word</code></p>
-				<p>But the capitalization of the variable has to match, so no defining a small-caps variable and using a capitalized one.</p>
-				<p>Word lists ending in <code>_SW</code> mean that they are a subword list, 
-					being separated by hand to have morphemes of a certain kind, e.g. <code>Ge|ne|va</code> would be splitted, 
-					with <code>Ge</code> in the <code>_SW1</code> list, <code>ne</code> in the <code>_SW2</code> list, and <code>va</code> in the <code>_SW3</code> list.</p>
+				<p>Word lists ending in <code>_SW</code> mean that they are a "subword" list, 
+					with each morpheme in its respective list, e.g. for <code>Ge|ne|va</code>, 
+					<code>Ge</code> would be in the <code>_SW1</code> list, <code>ne</code> in the <code>_SW2</code> list, and <code>va</code> in the <code>_SW3</code> list.</p>
 			<p>You can declare multiple variables per field, using a comma, if you want to get multiple words from the same wordlist without having to create two fields.</p>
 			<p>For more thorough examples, you can load templates in the <code>Import/Export</code> button.</p>
 			<p>Pick your example in the drop-down menu, then click <code>Load Example</code> and then click <code>Import</code></p>
+			<p>You can declare multiple variables in the same left-hand field, by separating them with a comma, i.e. <code>x0,x1,x2,x3</code>.
+			Pretty nifty if you want different words from the same list!</p>
 			</div>
 			<div class="help-section">
 			<p>The entire word lists can be found <a href="https://github.com/lmarti-dev/procedural-generation-word-lists">here</a></p>

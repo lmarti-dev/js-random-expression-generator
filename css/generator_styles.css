@@ -83,7 +83,7 @@ html{
 textarea{
 	width: auto;
 	height: 5em;
-	resize: none;
+	resize: vertical;
 	border: 1px solid #D6D6D6;
 	border-radius: 5px;
 	padding: 10px;
@@ -166,5 +166,10 @@ code{
 @media only screen and (max-width: 1000px) {
 	html{
 		font-size: 50px;
+	}
+	.fixed-panel{
+	width:100%;
+	margin: 0%;
+	left:0%;
 	}
 }

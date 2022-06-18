@@ -317,6 +317,8 @@ app.addEventListener('input', update_ui);
 app.addEventListener('click', update_ui);
 var can_generate = false
 
+
+
 function highlight_vars(e){
 	let text = get_stripped_gen_text()
 	let varnames = get_multiple_inputs('[id^="input-"]')

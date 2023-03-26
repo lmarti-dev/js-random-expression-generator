@@ -210,7 +210,6 @@ $("#ie-panel-load-button").click(function () {
 			async: false,
 			success: function (data) {
 				example_json = data;
-				update_ui()
 			}
 		});
 	//~ console.log(example_json)
@@ -450,6 +449,7 @@ function import_gen_text() {
 		$("#gen-text").val(gen_text)
 		$("#ie-text").val("")
 		show_hide_ie_panel()
+		update_ui()
 	} else {
 		console.log("Empty import!")
 	}

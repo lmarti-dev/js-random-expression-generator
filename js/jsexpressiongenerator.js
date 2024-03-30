@@ -138,6 +138,10 @@ function evaluate_json(data) {
 }
 
 
+function set_source_path(new_source_path) {
+	source_path_active = new_source_path
+}
+
 async function load_wordlist_manifest() {
 	//~ LOAD MANIFEST 
 

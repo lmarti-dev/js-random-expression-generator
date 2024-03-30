@@ -33,7 +33,8 @@ function get_random_from_wl(wl_fname) {
 function replace_nested_or(str) {
 	let re = /\{([^\{\}]+?)\}/g
 	N = 0
-	while (str.matchAll(re) !== [] && N < 1000) {
+	matched_arr = str.matchAll(re)
+	while (matched_arr.length != 0 && N < 1000) {
 		matches = [...str.matchAll(re)]
 		matches.forEach(function (e) {
 			num_commas = e[1].split(or_sym).length

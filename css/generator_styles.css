@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap');
 
-html{
+html {
 	font-size: 16px;
 	font-family: 'Inconsolata', sans-serif;
 	overflow: auto;
@@ -15,6 +15,7 @@ html{
 	justify-content: center;
 	align-content: stretch;
 }
+
 .column {
 	padding: .5em;
 	display: flex;
@@ -30,11 +31,13 @@ html{
 	flex-basis: 30%;
 	background: #EDEDED;
 }
+
 #right-column {
 	flex-basis: 60%;
 	background: #E5E5E5;
 }
-.ribbon{
+
+.ribbon {
 	background: #EFEFEF;
 	border: 1px solid #CECECE;
 	border-radius: 1px;
@@ -43,9 +46,10 @@ html{
 	flex-wrap: wrap;
 	padding: 5px;
 	margin: 2px;
-	
+
 }
-.status-msg{
+
+.status-msg {
 	font-size: .7em;
 	color: white;
 	background: #3847A4;
@@ -54,18 +58,20 @@ html{
 	padding: 0px 5px;
 	margin: 5px;
 }
+
 #status-ribbon {
 	display: flex;
-	flex-direction: flex-row;#EFEFEF
+	flex-direction: flex-row;
 }
 
-#var-list{
+#var-list {
 	width: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	}
-.var-div{
+}
+
+.var-div {
 	background: #E2E2E2;
 	display: flex;
 	flex-direction: row;
@@ -75,12 +81,14 @@ html{
 	border: 1px solid #D2D2D2;
 	border-radius: 2px;
 	width: auto;
-	}
-.var-elem{
+}
+
+.var-elem {
 	flex-grow: 1;
 	width: 30%
-	}
-textarea{
+}
+
+textarea {
 	width: auto;
 	height: 5em;
 	resize: vertical;
@@ -88,62 +96,81 @@ textarea{
 	border-radius: 5px;
 	padding: 10px;
 }
-#ie-panel>textarea{
+
+#ie-panel>textarea {
 	width: 90%;
 	margin: 10px;
 	resize: vertical;
 	overflow: auto;
 	height: 30em;
-	
+
 }
-.varsym{
+
+.varsym {
 	margin: .1em .2em;
 	font-size: 1.2em;
 }
-input[type="text"],button,textarea,select,option,input[type="number"]{
-    font-size:inherit;
-    font-family: inherit;
+
+input[type="text"],
+button,
+textarea,
+select,
+option,
+input[type="number"] {
+	font-size: inherit;
+	font-family: inherit;
 }
-input, select{
+
+input,
+select {
 	border: 1px solid #969696;
-	border-radius: 2px;	
+	border-radius: 2px;
 	margin: .1em .5em;
 }
-input:invalid,textarea:invalid{
+
+input:invalid,
+textarea:invalid {
 	border: 1px solid #FF0000;
 }
-.highlighted{
+
+.highlighted {
 	color: #B24C00;
 	background-color: #C8C8C8;
 	border: 1px solid #9C9A99;
 	border-radius: 2px;
 }
-#results{
+
+#results {
 	background-color: #EFEFEF;
 	border: 1px solid #D8D8D8;
 	padding: 1em;
 }
+
 .result {
 	display: flex;
 	padding: .1em;
 	border: 1px solid #C3C3C3;
-}	
-div.result>p{
+}
+
+div.result>p {
 	width: 100%;
 	background-color: #FBFBFB;
 	border: 1px solid #D8D8D8;
 	padding: .5em 1em;
 	margin: .3em;
 }
-.hidden{
+
+.hidden {
 	display: none;
 }
-code{
+
+code {
 	background: #C9E2E6;
 	border-radius: 3px;
 	padding: 2px;
 }
-.fixed-panel{
+
+.fixed-panel {
 	position: fixed;
 	width: 50%;
 	background-color: #E4E4E4;
@@ -155,21 +182,28 @@ code{
 	overflow-y: scroll;
 	min-height: 50%;
 	max-height: 90%;
-	box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.46);
+	box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.46);
 }
-.help-section{
+
+.help-section {
 	background-color: #FFFFFF;
 	padding: 1px 10px;
 	margin: 10px 3px;
 }
 
 @media only screen and (max-width: 1000px) {
-	html{
+	html {
 		font-size: 50px;
 	}
-	.fixed-panel{
-	width:100%;
-	margin: 0%;
-	left:0%;
+
+	.fixed-panel {
+		width: 100%;
+		margin: 0%;
+		left: 0%;
 	}
+}
+
+button#reset-var {
+	float: right;
+	color: #FF0000;
 }

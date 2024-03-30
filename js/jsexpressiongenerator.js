@@ -70,11 +70,10 @@ function strip_html(str) {
 function ajax_wl(wl_fname) {
 	let wl_data = []
 	let url_fpath = source_path_active + "wordlists/" + wl_fname
-
 	$.ajax(
 		{
 			url: url_fpath,
-			dataType: "html",
+			mimeType: "text/plain",
 			async: false,
 			success: function (data) {
 

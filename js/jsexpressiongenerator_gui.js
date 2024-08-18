@@ -6,52 +6,10 @@ var var_exp = "x"
 var status_good_color = "#4DAC27"
 var status_bad_color = "#DA1400"
 var status_info_color = "#0055FF"
-const var_sym = "$"
-const or_sym = "|"
 var copied_str = ""
 
-var source_path = "procedural-generation-word-lists/"
-var source_path_wb = "../wordlists/"
-var source_path_gh = "https://raw.githubusercontent.com/lmarti-dev/procedural-generation-word-lists/main/"
-var source_path_active = source_path_wb
-var wl_manifest
+var wl_options = []
 var can_generate = false
-
-//~ UTILS 
-function get_random_int(max) {
-	return Math.floor(Math.random() * max);
-}
-function get_random_item_from_array(arr) {
-	ind = get_random_int(arr.length)
-	return arr[ind]
-}
-
-function get_random_from_wl(wl_fname) {
-	return get_random_item_from_array(ajax_wl(wl_fname))
-}
-
-function replace_nested_or(str) {
-	let re = /\{([^\{\}]+?)\}/g
-	N = 0
-	matched_arr = str.matchAll(re)
-	while (matched_arr.length != 0 && N < 1000) {
-		matches = [...str.matchAll(re)]
-		matches.forEach(function (e) {
-			num_commas = e[1].split(or_sym).length
-			let ind = get_random_int(num_commas)
-			choice = e[1].split(or_sym)[ind]
-			str = str.replace(e[0], choice)
-		})
-		N += 1
-	}
-	return str
-}
-
-
-function clean_file_path(str) {
-	str = str.split('\\').pop().split('/').pop();
-	return str.split("\.").shift()
-}
 
 function get_var_name() {
 	var var_len = int_vars_reg.length
@@ -65,56 +23,16 @@ function get_var_name() {
 	return var_name
 }
 
-function cap_first(str) {
-	return str[0].toUpperCase() + str.substring(1)
-}
-function check_case(char) {
-	if (char.toUpperCase() == char) {
-		return true;
-	}
-	else {
-		return false
-	}
-}
-
-function strip_html(str) {
-	return str.replace(/(<([^>]+)>)/gi, "");
-}
-
-function ajax_wl(wl_fname) {
-	let wl_data = []
-	let url_fpath = source_path_active + "wordlists/" + wl_fname
-
-	$.ajax(
-		{
-			url: url_fpath,
-			dataType: "html",
-			async: false,
-			success: function (data) {
-
-				wl_data = data;
-			},
-		});
-	return wl_data.split("\n")
-}
-
-function get_option_list_from_array(arr) {
-	var opts = []
-	arr.forEach(element => opts.push(`<option value="${element}">${clean_file_path(element)}</option>`));
-	return opts
-}
 
 function clear_all() {
-	$("#var-list").html("")
-	$("#gen-text").val("")
-	$("#results").empty()
+	document.getElementById("var-list").innerHTML = ""
+	document.getElementById("gen-text").value = ""
+	document.getElementById("results").innerHTML = ""
 	int_vars_reg = []
 }
 //~ ADD VARIABLE 
 
 function add_var_div(var_id, selected_option) {
-
-
 	var var_div = document.createElement("div")
 	var_div.setAttribute("class", "var-div")
 	var_div.setAttribute("id", var_id)
@@ -151,88 +69,37 @@ function add_var_div(var_id, selected_option) {
 
 function add_new_var(var_id = get_var_name(), selected_option = wl_manifest[0]) {
 	let new_var_div = add_var_div(var_id, selected_option)
-	$("#var-list").append(new_var_div)
-	$("#var-list").on("click", ".rm-button", function () {
-		this.parentNode.remove()
+	document.getElementById("var-list").appendChild(new_var_div)
+	let rm_buttons = document.getElementsByClassName("rm-button")
+	Array.from(rm_buttons).map((element) => {
+		element.addEventListener("click", function () {
+			// check this
+			element.parentNode.remove()
+		})
 	})
 	return new_var_div
 };
-$("#add-var").click(function () {
-	add_new_var()
-})
-$("#reset-var").click(function () {
-	clear_all()
-})
 
 //~ LOAD MANIFEST 
 
-$.ajax(
-	{
-		url: source_path_active + "manifest.json",
-		dataType: "json",
-		async: false,
-		success: function (data) {
-			wl_manifest = data;
-		}
-	});
 
-
-
-var wl_options = []
-wl_options = get_option_list_from_array(wl_manifest)
-
-//~ LOAD EXAMPLES
-
-var examples
-var examples_manifest
-var examples_options
-
-$.ajax(
-	{
-		url: "examples/manifest.json",
-		dataType: "json",
-		async: false,
-		success: function (data) {
-			examples_manifest = data;
-
-		}
-	});
-
-examples_options = get_option_list_from_array(examples_manifest)
-$("#ie-panel-examples").html(examples_options)
-
-$("#ie-panel-load-button").click(function () {
-	let example_fpath = $("#ie-panel-examples").val()
-	let example_json
-	$.ajax(
-		{
-			url: "examples/" + example_fpath,
-			dataType: "text",
-			async: false,
-			success: function (data) {
-				example_json = data;
-			}
-		});
-	//~ console.log(example_json)
-	$("#ie-text").val(example_json)
-});
 
 
 function get_multiple_inputs(query) {
-	let values = $(query).map(function (idx, elem) {
+	query_results = document.querySelectorAll(query)
+	let values = Array.from(query_results).map(function (elem) {
 		//~ inverted implementation of argument order
-		return $(elem).val();
+		return elem.value;
 	})
-	//~ console.log($(query))
 	return Array.from(values)
 
 }
 function get_all_results() {
-	let values = $(".result").map(function (idx, elem) {
+	let results = document.getElementsByClassName("result")
+	let values = Array.from(results).map(function (elem) {
 		//~ inverted implementation of argument order
 		return elem.firstChild.innerHTML;
 	})
-	//~ console.log(values)
 	return Array.from(values)
 
 }
@@ -243,77 +110,47 @@ function get_stripped_gen_text() {
 
 //~ GENERATE =========================
 
-$("#generate").click(function () {
-	$("#results").empty()
-	if (can_generate) {
-		$("#results").html("")
+async function append_result_child(wls, varnames, gen_text) {
+	var results_div = document.getElementById("results")
+	text = await evaluate_generative_expression(varnames, wls, gen_text)
+	let result = document.createElement("div")
+	result.classList.add("result")
+	result.innerHTML = "<p>" + text + "</p>"
+	button = document.createElement("button")
+	button.innerHTML = "Copy"
+	button.classList.add("copy")
+	result.appendChild(button)
+	results_div.appendChild(result)
 
-		let varnames = get_multiple_inputs('[id^="input-"]')
-		let varnames_split = []
-		let wls = get_multiple_inputs('[id^="select-"]')
-		let wls_split = []
-		for (iii = 0; iii < varnames.length; iii++) {
-			if (varnames[iii].includes(",")) {
-				let vars = varnames[iii].split(",")
-				vars.forEach(function (e, i) {
-					varnames_split.push(e)
-					wls_split.push(wls[iii])
-				});
+}
+
+function setup_generate() {
+
+	document.getElementById("generate").addEventListener("click", function () {
+		var results_div = document.getElementById("results")
+		results_div.innerHTML = ""
+		if (can_generate) {
+			results_div.innerHTML = ""
+			let varnames = get_multiple_inputs('[id^="input-"]')
+			let wls = get_multiple_inputs('[id^="select-"]')
+			let gen_text = get_stripped_gen_text()
+			let num_gens = document.getElementById("numgens").value
+			for (let iii = 0; iii < num_gens; iii++) {
+				append_result_child(wls, varnames, gen_text)
 			}
-			else {
-				varnames_split.push(varnames[iii])
-				wls_split.push(wls[iii])
-			}
-		}
-		varnames = varnames_split
-		wls = wls_split
+			Array.from(results_div.getElementsByClassName("copy")).map((element) => {
+				element.addEventListener("click", function () {
 
-		//~ evaluate the longest variables first to avoid replacing longer ones with shorter ones with same beginning
-
-		zipped_data = varnames.map(function (e, i) { return [e, wls[i]] })
-
-		zipped_data.sort(function (a, b) { return b[0].length - a[0].length });
-
-		//~ console.log(zipped_data)
-
-		let num_gens = $("#numgens").val()
-		for (iii = 0; iii < num_gens; iii++) {
-			let text = replace_nested_or(get_stripped_gen_text())
-			zipped_data.forEach(function (e, i) {
-				let cur_varname = e[0]
-				let cur_wl = e[1]
-
-				let random_word = get_random_from_wl(cur_wl)
-
-				if (check_case(cur_varname[0])) {
-					text = text.replaceAll(var_sym + cur_varname, cap_first(random_word))
-				}
-				else {
-					text = text.replaceAll(var_sym + cur_varname, random_word)
-				}
-
+					// check this
+					copy_to_clip(element.parentNode.firstElementChild.innerHTML)
+				})
+			})
+			document.getElementById("copy-all").addEventListener("click", function () {
+				copy_to_clip(get_all_results())
 			});
-			let result = $("<div class='result'></div>")
-			result.html("<p>" + text + "</p>")
-			result.append("<button class='copy'>Copy</button>")
-			$("#results").append(result)
 		}
-		$("#results").on("click", ".copy", function () {
-			copy_to_clip(this.parentNode.firstElementChild.innerHTML)
-		})
-		$("#copy-all").click(function () {
-			copy_to_clip(get_all_results())
-		});
-	}
-})
-
-//~ UPDATE STATUS ==================================
-
-var app = document.getElementById("expgenapp")
-app.addEventListener('input', update_ui);
-app.addEventListener('click', update_ui);
-var can_generate = false
-
+	})
+}
 
 
 function highlight_vars(e) {
@@ -331,26 +168,26 @@ function update_ui(e) {
 	//~ highlight_vars(e)
 	//~ try and imitate the outlook contact highlighting
 	update_message(e)
-	if ($("#results").children().length > 1) {
-		$("#copy-all").removeClass("hidden")
+	if (document.getElementById("results").children.length > 1) {
+		document.getElementById("copy-all").classList.remove("hidden")
 	} else {
-		$("#copy-all").addClass("hidden")
+		document.getElementById("copy-all").classList.add("hidden")
 	}
 
 }
 
 
 function update_status_message(str, color) {
-	let msg = $("<div></div>")
-	msg.attr("class", "status-msg")
-	msg.html(str.toUpperCase())
-	msg.css("background-color", color)
-	$('#status-ribbon').append(msg)
+	let msg = document.createElement("div")
+	msg.classList.add("status-msg")
+	msg.innerHTML = str.toUpperCase()
+	msg.style["background-color"] = color
+	document.getElementById('status-ribbon').appendChild(msg)
 }
 
 
 function update_message(e) {
-	$('#status-ribbon').html("")
+	document.getElementById('status-ribbon').innerHTML = ""
 	inputs = document.querySelectorAll("input,textarea")
 	var bad_var = false
 	var null_var = false
@@ -392,52 +229,34 @@ function copy_to_clip(str) {
 
 document.addEventListener('copy', function (e) {
 	origin = e.explicitOriginalTarget;
-	if (origin.id === "copy-all" || $(origin).hasClass('copy')) {
+	if (origin.id === "copy-all" || origin.classList.contains('copy')) {
 		e.clipboardData.setData('text/plain', copied_str);
 		e.clipboardData.setData('text/html', copied_str);
 		e.preventDefault()
 	}
 })
 
-
 //~ HELP PANEL ==================================
 
 function show_hide_panel(button, panel) {
-	if (panel.hasClass("hidden")) {
-		panel.removeClass("hidden")
-		button.click(function () {
-			panel.addClass("hidden")
+	if (panel.classList.contains("hidden")) {
+		panel.classList.remove("hidden")
+		button.addEventListener("click", function () {
+			panel.classList.add("hidden")
 		})
 	} else {
-		panel.addClass("hidden")
+		panel.classList.add("hidden")
 	}
 }
 
-var help_button = $("#help-button")
-var help_panel = $("#help-panel")
-var help_panel_close_button = $("#help-panel-close-button")
-
-
 function show_hide_help_panel() {
-	show_hide_panel(help_panel_close_button, help_panel)
+	show_hide_panel(document.getElementById("help-panel-close-button"), document.getElementById("help-panel"))
 }
-
-help_button.click(show_hide_help_panel)
-
-//~ IE PANEL ==================================
-
-var ie_button = $("#ie-button")
-var ie_panel = $("#ie-panel")
-var ie_panel_close_button = $("#ie-panel-close-button")
-
-var json_var_key = "vars"
-var json_wl_key = "wordlists"
-var json_gen_key = "generative"
 
 function import_gen_text() {
 
-	if ($("#ie-text").val() !== "") {
-		data = JSON.parse($("#ie-text").val())
+	if (document.getElementById("ie-text").value !== "") {
+		data = JSON.parse(document.getElementById("ie-text").value)
 
 		clear_all()
 		let varnames = data[json_var_key]
@@ -447,9 +266,9 @@ function import_gen_text() {
 		varnames.forEach(function (e, i) {
 			add_new_var(e, wls[i])
 		});
-		$("#gen-text").val(gen_text)
-		$("#ie-text").val("")
-		show_hide_ie_panel()
+		document.getElementById("gen-text").value = gen_text
+		document.getElementById("ie-text").innerHTML =
+			show_hide_ie_panel()
 		update_ui()
 	} else {
 		console.log("Empty import!")
@@ -457,31 +276,82 @@ function import_gen_text() {
 
 }
 
-
-
 function export_gen_text() {
 	let varnames = get_multiple_inputs("#var-list input")
 	let wls = get_multiple_inputs("#var-list select")
 	//~ console.log(varnames)
 	//~ console.log(wls)
-	let gen_text = $("#gen-text").val()
+	let gen_text = document.getElementById("gen-text").value
 	//~ console.log(gen_text)
 	json_export = { [json_var_key]: varnames, [json_wl_key]: wls, [json_gen_key]: gen_text }
 	var json_export = JSON.stringify(json_export, null, 3)
-	$("#ie-text").empty()
-	$("#ie-text").val(json_export)
+	document.getElementById("ie-text").value = ""
+	document.getElementById("ie-text").value = json_export
 
 }
 
 function show_hide_ie_panel() {
-	show_hide_panel(ie_panel_close_button, ie_panel)
-	$("#ie-panel-import-button").click(import_gen_text)
-	$("#ie-panel-export-button").click(export_gen_text)
+	show_hide_panel(document.getElementById("ie-panel-close-button"), document.getElementById("ie-panel"))
+	document.getElementById("ie-panel-import-button").addEventListener("click", import_gen_text)
+	document.getElementById("ie-panel-export-button").addEventListener("click", export_gen_text)
 }
 
-ie_button.click(function () {
-	show_hide_ie_panel()
-	$("#ie-text").empty()
+
+
+async function setup_gui() {
+	var help_button = document.getElementById("help-button")
+	var help_panel = document.getElementById("help-panel")
+	var help_panel_close_button = document.getElementById("help-panel-close-button")
+
+	help_button.addEventListener("click", show_hide_help_panel)
+
+	//~ IE PANEL ==================================
+
+	var ie_button = document.getElementById("ie-button")
+	var ie_panel = document.getElementById("ie-panel")
+	var ie_panel_close_button = document.getElementById("ie-panel-close-button")
+
+	document.getElementById("add-var").addEventListener("click", function () {
+		add_new_var()
+	})
+	document.getElementById("reset-var").addEventListener("click", function () {
+		clear_all()
+	})
+
+	ie_button.addEventListener("click", function () {
+		show_hide_ie_panel()
+		document.getElementById("ie-text").innerHTML = ""
+	});
+
+	// get wl_manifest
+	await load_wordlist_manifest()
+	wl_options = get_option_list_from_array(wl_manifest)
+
+	setup_generate()
+	//~ LOAD EXAMPLES
+	var examples
+	var examples_options
+	var examples_manifest = await fetch_json("examples/manifest.json")
+	examples_options = get_option_list_from_array(examples_manifest)
+	document.getElementById("ie-panel-examples").innerHTML = examples_options
+
+	document.getElementById("ie-panel-load-button").addEventListener("click", async function () {
+		let example_fpath = document.getElementById("ie-panel-examples").value
+		let example_json
+		example_json = await fetch_json(`examples/${example_fpath}`)
+		document.getElementById("ie-text").value = JSON.stringify(example_json, null, 2)
+	})
+
+	//~ UPDATE STATUS ==================================
+
+	var app = document.getElementById("expgenapp")
+	app.addEventListener('input', update_ui);
+	app.addEventListener('click', update_ui);
+	var can_generate = false
+}
+
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+	setup_gui()
 });
-
-

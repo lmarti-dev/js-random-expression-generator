@@ -7,14 +7,29 @@ const json_var_key = "vars"
 const json_wl_key = "wordlists"
 const json_gen_key = "generative"
 
-
 var source_path = "procedural-generation-word-lists/"
-var source_path_wb = "../wordlists/"
+var source_path_wb = "https://dxdt.ch/wordlists/"
 var source_path_gh = "https://raw.githubusercontent.com/lmarti-dev/procedural-generation-word-lists/main/"
-var source_path_active = source_path_wb
+var source_path_active = source_path_gh
 var wl_manifest
 
 //~ UTILS 
+
+
+async function fetch_json(url) {
+	return await (await fetch(url, {
+		method: "GET"
+	})).json()
+}
+
+async function fetch_text(url) {
+	return await (await fetch(url, {
+		method: "GET",
+	})).text()
+}
+
+
+
 function get_random_int(max) {
 	return Math.floor(Math.random() * max);
 }
@@ -23,15 +38,16 @@ function get_random_item_from_array(arr) {
 	return arr[ind]
 }
 
-function get_random_from_wl(wl_fname) {
-	return get_random_item_from_array(ajax_wl(wl_fname))
+async function get_random_from_wordlist(wl_fname) {
+	let wordlist = await fetch_wordlist(wl_fname)
+	return get_random_item_from_array(wordlist)
 }
 
 function replace_nested_or(str) {
 	let re = /\{([^\{\}]+?)\}/g
 	N = 0
-	arr = str.matchAll(re)
-	while (arr.length !== 0 && N < 1000) {
+	matches = [...str.matchAll(re)]
+	while (matches.length !== 0 && N < 1000) {
 		matches = [...str.matchAll(re)]
 		matches.forEach(function (e) {
 			num_commas = e[1].split(or_sym).length
@@ -54,7 +70,7 @@ function clean_file_path(str) {
 function cap_first(str) {
 	return str[0].toUpperCase() + str.substring(1)
 }
-function check_case(char) {
+function is_uppercase(char) {
 	if (char.toUpperCase() == char) {
 		return true;
 	}
@@ -67,20 +83,13 @@ function strip_html(str) {
 	return str.replace(/(<([^>]+)>)/gi, "");
 }
 
-function ajax_wl(wl_fname) {
-	let wl_data = []
-	let url_fpath = source_path_active + "wordlists/" + wl_fname
-	$.ajax(
-		{
-			url: url_fpath,
-			mimeType: "text/plain",
-			async: false,
-			success: function (data) {
+async function fetch_wordlist(wl_fname) {
+	var response;
+	let url = `${source_path_active}wordlists/${wl_fname}`
+	text = await fetch_text(url)
+	wordlist = text.split(/\r?\n/)
+	return wordlist
 
-				wl_data = data;
-			},
-		});
-	return wl_data.split("\n")
 }
 
 function get_option_list_from_array(arr) {
@@ -91,51 +100,65 @@ function get_option_list_from_array(arr) {
 
 //~ GENERATE =========================
 
-function evaluate_json(data) {
-	let varnames = data[json_var_key]
+
+async function get_random_words(elems) {
+	var random_words = []
+	for (let i = 0; i < elems.length; i++) {
+		w = await get_random_from_wordlist(elems[i])
+		random_words.push(w)
+	}
+	return random_words
+
+}
+
+async function evaluate_generative_expression(varnames, wordlists, gen_text) {
 	let varnames_split = []
-	let wls = data[json_wl_key]
 	let wls_split = []
 	for (iii = 0; iii < varnames.length; iii++) {
 		if (varnames[iii].includes(",")) {
 			let vars = varnames[iii].split(",")
 			vars.forEach(function (e, i) {
 				varnames_split.push(e)
-				wls_split.push(wls[iii])
+				wls_split.push(wordlists[iii])
 			});
 		}
 		else {
 			varnames_split.push(varnames[iii])
-			wls_split.push(wls[iii])
+			wls_split.push(wordlists[iii])
 		}
 	}
 	varnames = varnames_split
-	wls = wls_split
+	wordlists = wls_split
 
 	//~ evaluate the longest variables first to avoid replacing longer ones with shorter ones with same beginning
 
-	zipped_data = varnames.map(function (e, i) { return [e, wls[i]] })
-
+	zipped_data = varnames.map(function (e, i) { return [e, wordlists[i]] })
 	zipped_data.sort(function (a, b) { return b[0].length - a[0].length });
 
-	let text = replace_nested_or(data[json_gen_key])
+	let text = replace_nested_or(gen_text)
+	var random_words = await get_random_words(zipped_data.map((e) => { return e[1] }))
 	zipped_data.forEach(function (e, i) {
 		let cur_varname = e[0]
 		let cur_wl = e[1]
+		let random_word = random_words[i]
+		let capped_word;
 
-		let random_word = get_random_from_wl(cur_wl)
-
-		if (check_case(cur_varname[0])) {
-			text = text.replaceAll(var_sym + cur_varname, cap_first(random_word))
+		if (is_uppercase(cur_varname[0])) {
+			capped_word = cap_first(random_word)
 		}
 		else {
-			text = text.replaceAll(var_sym + cur_varname, random_word)
+			capped_word = random_word
 		}
+		text = text.replaceAll(var_sym + cur_varname, capped_word)
 
 	});
 	return text
 }
 
+async function evaluate_json(data) {
+	return await evaluate_generative_expression(data[json_var_key], data[json_wl_key], data[json_gen_key])
+
+}
 
 function set_source_path(new_source_path) {
 	source_path_active = new_source_path
@@ -143,14 +166,5 @@ function set_source_path(new_source_path) {
 
 async function load_wordlist_manifest() {
 	//~ LOAD MANIFEST 
-
-	return await $.ajax(
-		{
-			url: source_path_active + "manifest.json",
-			mimeType: "json",
-			async: false,
-			success: function (data) {
-				wl_manifest = data;
-			}
-		});
+	wl_manifest = await fetch_json(`${source_path_active}manifest.json`)
 }

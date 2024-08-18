@@ -8,7 +8,7 @@ const json_wl_key = "wordlists"
 const json_gen_key = "generative"
 
 var source_path = "procedural-generation-word-lists/"
-var source_path_wb = "https://dxdt.ch/wordlists/"
+var source_path_wb = "../wordlists/"
 var source_path_gh = "https://raw.githubusercontent.com/lmarti-dev/procedural-generation-word-lists/main/"
 var source_path_active = source_path_wb
 var wl_manifest
